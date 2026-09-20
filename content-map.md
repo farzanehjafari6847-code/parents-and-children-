@@ -1,4 +1,10 @@
-# Content Map
+# معماری محتوایی Parenting Course
+
+## وضعیت این مرحله
+
+- مدل داده جامع برای تمام انواع محتوای محصول در `docs/content-model.md` ثبت شده است.
+- Payload CMS، احراز هویت، پرداخت و backend فعلاً پیاده‌سازی نشده‌اند.
+- Route registry و مستندات فعلی فقط قرارداد معماری هستند.
 
 ## اصل محصول
 
@@ -18,6 +24,23 @@ solutions
 programs
 search
 ```
+
+## Entityهای اصلی
+
+```text
+Path, Module, Lesson, Problem, Solution, Exercise, Checklist,
+Quiz, Program, FamilyPlanTemplate, FamilyPlanInstance,
+ChildPath, DigitalGuide, Progress, Language, Translation
+```
+
+## رابطه‌ی مرکزی
+
+```text
+Problem -> Solution -> Lesson -> Exercise/Checklist/Quiz
+        -> Program(7-day/30-day) -> FamilyPlan -> Progress
+```
+
+این رابطه یک زنجیره‌ی ارجاعی است و به معنی کپی‌کردن محتوا نیست. هر Entity یک‌بار تعریف می‌شود و با `ContentRef` در چند مسیر یا صفحه استفاده می‌شود.
 
 ## مسیر والدگری و رابطه
 
@@ -62,28 +85,12 @@ when-the-game-ends
 weekly-plan
 ```
 
-## کتابخانه مشکل و راهکار
+## نکات مهم
 
-هر Problem باید حداقل به یک Solution، یک Lesson و در صورت امکان یک Exercise/Checklist متصل باشد.
-
-```text
-/problems/my-child-does-not-listen
-/problems/screen-time-fights
-/problems/child-hides-messages
-/problems/constant-comparison
-/problems/homework-conflict
-/solutions/connection-before-correction
-/solutions/one-clear-boundary
-/solutions/repair-conversation
-/solutions/digital-family-agreement
-```
-
-## برنامه‌ها و Family Plan
-
-- برنامه‌های ۷روزه برای یک تغییر کوچک و قابل مشاهده.
-- برنامه‌های ۳۰روزه برای تثبیت عادت و مرور هفتگی.
-- Family Plan برای توافق خانواده، قوانین صفحه، خواب، امنیت، زمان بدون صفحه و بازبینی مشترک.
-
-## نگاشت نسخه نمایشی فعلی
-
-Routeهای فعلی مانند `generationGap`, `parentConnection`, `boundaries`, `gameFinish` و `familyPlan` حفظ می‌شوند. آن‌ها aliasهای سازگار برای مهاجرت تدریجی به slugهای پایدار هستند و نباید حذف شوند.
+- متن علمی و آموزشی داخل UI قفل نمی‌شود.
+- Lesson، Solution، Exercise و Checklist می‌توانند هم‌زمان در چند Path ظاهر شوند.
+- ترجمه‌ها به Entity اصلی وصل می‌شوند و Entity برای هر زبان Duplicate نمی‌شود.
+- Progress به `contentId` وابسته است، نه به زبان یا متن نمایشی.
+- Family Plan شامل Template عمومی و Instance خصوصی خانواده است.
+- Digital Guide برای تنظیمات فنی، تاریخ آخرین بررسی دارد.
+- این مستند باید قرارداد اتصال آینده به CMS و API باقی بماند.
