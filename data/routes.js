@@ -1,166 +1,42 @@
 const routes = [
-  {
-    id: 'home',
-    label: 'خانه',
-    group: 'main',
-    type: 'landing',
-    title: 'خانه',
-    route: '/',
-    summary: 'داشبورد اصلی و انتخاب مسیر'
-  },
-  {
-    id: 'parent',
-    label: 'والدگری و رابطه',
-    group: 'main',
-    type: 'category',
-    title: 'والدگری و رابطه',
-    route: '/parent',
-    summary: 'ارتباط، مرزگذاری، شکاف نسل‌ها و ترمیم رابطه'
-  },
-  {
-    id: 'generationGap',
-    label: 'شکاف نسل‌ها',
-    group: 'parent',
-    type: 'page',
-    title: 'شکاف نسل‌ها',
-    route: '/parent/generation-gap',
-    summary: 'پیوند بین تفاوت‌ها و درک متقابل'
-  },
-  {
-    id: 'parentConnection',
-    label: 'ارتباط والد و فرزند',
-    group: 'parent',
-    type: 'page',
-    title: 'ارتباط والد و فرزند',
-    route: '/parent/connection',
-    summary: 'گفت‌وگویی آرام‌تر، عمیق‌تر و امن‌تر'
-  },
-  {
-    id: 'boundaries',
-    label: 'مرزگذاری سالم',
-    group: 'parent',
-    type: 'page',
-    title: 'مرزگذاری سالم',
-    route: '/parent/boundaries',
-    summary: 'قانون روشن، بدون تحقیر'
-  },
-  {
-    id: 'angerConflict',
-    label: 'خشم و تعارض',
-    group: 'parent',
-    type: 'page',
-    title: 'خشم و تعارض',
-    route: '/parent/anger-conflict',
-    summary: 'در لحظه خشم، ایمنی و آرامش را حفظ کنیم'
-  },
-  {
-    id: 'repairAfterConflict',
-    label: 'ترمیم رابطه',
-    group: 'parent',
-    type: 'page',
-    title: 'ترمیم رابطه بعد از دعوا',
-    route: '/parent/repair-after-conflict',
-    summary: 'بازسازی ارتباط پس از تنش'
-  },
-  {
-    id: 'selfEsteem',
-    label: 'عزت‌نفس و مقایسه',
-    group: 'parent',
-    type: 'page',
-    title: 'عزت‌نفس و مقایسه',
-    route: '/parent/self-esteem',
-    summary: 'از مقایسه به رشد واقعی برسیم'
-  },
-  {
-    id: 'schoolPressure',
-    label: 'مدرسه و فشار',
-    group: 'parent',
-    type: 'page',
-    title: 'مدرسه و فشار',
-    route: '/parent/school-pressure',
-    summary: 'پرسش‌گر و همراه، نه قاضی'
-  },
-  {
-    id: 'burnout',
-    label: 'والد کافی و فرسودگی',
-    group: 'parent',
-    type: 'page',
-    title: 'والد کافی و فرسودگی',
-    route: '/parent/burnout',
-    summary: 'خسته‌بودن به معنی شکست نیست'
-  },
-  {
-    id: 'digital',
-    label: 'والدگری در دنیای دیجیتال',
-    group: 'main',
-    type: 'category',
-    title: 'والدگری در دنیای دیجیتال',
-    route: '/digital',
-    summary: 'بازی، گوشی، امنیت، و تنظیمات فنی'
-  },
-  {
-    id: 'gameFinish',
-    label: 'بازی را تمام نمی‌کند',
-    group: 'digital',
-    type: 'page',
-    title: 'بازی را تمام نمی‌کند',
-    route: '/digital/game-finish',
-    summary: 'وقتی توقف در بازی برای کودک دشوار است'
-  },
-  {
-    id: 'strangers',
-    label: 'غریبه‌ها و پیام‌ها',
-    group: 'digital',
-    type: 'page',
-    title: 'غریبه‌ها و پیام‌های نامناسب',
-    route: '/digital/strangers',
-    summary: 'حریم فردی و رفتار امن آنلاین'
-  },
-  {
-    id: 'aiSafety',
-    label: 'هوش مصنوعی و Deepfake',
-    group: 'digital',
-    type: 'page',
-    title: 'هوش مصنوعی و Deepfake',
-    route: '/digital/ai-safety',
-    summary: 'محتوای جعلی و حفظ امنیت خانوادگی'
-  },
-  {
-    id: 'technicalGuide',
-    label: 'راهنمای فنی',
-    group: 'digital',
-    type: 'page',
-    title: 'راهنمای فنی',
-    route: '/digital/technical-guide',
-    summary: 'Screen Time، Family Link و محدودیت‌ها'
-  },
-  {
-    id: 'child',
-    label: 'مسیر کودک ۷ تا ۱۲ سال',
-    group: 'main',
-    type: 'category',
-    title: 'مسیر کودک ۷ تا ۱۲ سال',
-    route: '/child',
-    summary: 'خودشناسی، احساس، هدف و برنامه کودک'
-  },
-  {
-    id: 'childPath',
-    label: 'مسیر کودک',
-    group: 'child',
-    type: 'page',
-    title: 'مسیر کودک ۷ تا ۱۲ سال',
-    route: '/child/path',
-    summary: 'خودشناسی و رشد روزمره کودک'
-  },
-  {
-    id: 'familyPlan',
-    label: 'برنامه خانواده',
-    group: 'main',
-    type: 'page',
-    title: 'برنامه خانواده',
-    route: '/family-plan',
-    summary: 'قوانین مشترک و برنامه مرور دیجیتال'
-  }
+  { id: 'home', label: 'خانه', group: 'main', type: 'landing', title: 'خانه', route: '/', summary: 'داشبورد اصلی و انتخاب مسیر' },
+  { id: 'paths', label: 'مسیرها', group: 'main', type: 'category', title: 'مسیرهای یادگیری', route: '/paths', summary: 'مسیرهای کامل یادگیری والدگری و خانواده' },
+  { id: 'parent', label: 'والدگری و رابطه', group: 'main', type: 'category', title: 'والدگری و رابطه', route: '/paths/parenting-and-relationship', summary: 'هسته اصلی: ارتباط، فهم، مرزگذاری و ترمیم رابطه' },
+  { id: 'childAndTeenUnderstanding', label: 'شناخت کودک و نوجوان', group: 'parent', type: 'page', title: 'شناخت کودک و نوجوان', route: '/paths/parenting-and-relationship/child-and-teen-understanding', summary: 'رفتار را قبل از قضاوت بهتر بفهمیم' },
+  { id: 'generationGap', label: 'شکاف نسل‌ها', group: 'parent', type: 'page', title: 'شکاف نسل‌ها', route: '/paths/parenting-and-relationship/generation-gap', summary: 'چطور تفاوت‌ها را به ارتباط تبدیل کنیم' },
+  { id: 'parentConnection', label: 'ارتباط والد و فرزند', group: 'parent', type: 'page', title: 'ارتباط والد و فرزند', route: '/paths/parenting-and-relationship/parent-child-connection', summary: 'گفت‌وگویی آرام‌تر، عمیق‌تر و امن‌تر' },
+  { id: 'boundaries', label: 'مرزگذاری سالم', group: 'parent', type: 'page', title: 'مرزگذاری سالم', route: '/paths/parenting-and-relationship/healthy-boundaries', summary: 'قوانین روشن و بدون تحقیر' },
+  { id: 'angerConflict', label: 'خشم و تعارض', group: 'parent', type: 'page', title: 'خشم و تعارض', route: '/paths/parenting-and-relationship/anger-and-conflict', summary: 'در لحظه خشم چگونه ایمن بمانیم' },
+  { id: 'repairAfterConflict', label: 'ترمیم رابطه', group: 'parent', type: 'page', title: 'ترمیم رابطه بعد از دعوا', route: '/paths/parenting-and-relationship/repair-after-conflict', summary: 'بازسازی ارتباط پس از تنش' },
+  { id: 'selfEsteem', label: 'عزت‌نفس و مقایسه', group: 'parent', type: 'page', title: 'عزت‌نفس و مقایسه', route: '/paths/parenting-and-relationship/self-esteem-and-comparison', summary: 'از مقایسه به رشد واقعی برسیم' },
+  { id: 'schoolPressure', label: 'مدرسه و فشار', group: 'parent', type: 'page', title: 'مدرسه و فشار', route: '/paths/parenting-and-relationship/school-pressure', summary: 'پرسش‌گر و همراه، نه قاضی' },
+  { id: 'burnout', label: 'فرسودگی والد', group: 'parent', type: 'page', title: 'والد کافی و فرسودگی', route: '/paths/parenting-and-relationship/parent-burnout', summary: 'خسته‌بودن به معنی شکست نیست' },
+  { id: 'parentSelf', label: 'خودِ والد', group: 'parent', type: 'page', title: 'خودِ والد', route: '/paths/parenting-and-relationship/the-parent-self', summary: 'نیازها، ارزش‌ها و ظرفیت‌های خود والد' },
+  { id: 'weeklyHabits', label: 'عادت‌های هفتگی', group: 'parent', type: 'page', title: 'عادت‌های هفتگی خانواده', route: '/paths/parenting-and-relationship/weekly-habits', summary: 'تغییر کوچک، تکرارپذیر و قابل مشاهده' },
+  { id: 'digital', label: 'والدگری دیجیتال', group: 'main', type: 'category', title: 'والدگری در دنیای دیجیتال', route: '/paths/digital-parenting', summary: 'مهارت‌های دیجیتال در خدمت رابطه و امنیت خانواده' },
+  { id: 'mobileTablet', label: 'موبایل و تبلت', group: 'digital', type: 'page', title: 'موبایل و تبلت', route: '/paths/digital-parenting/mobile-and-tablet', summary: 'قانون، همراهی و استفاده متعادل' },
+  { id: 'gaming', label: 'بازی و توقف', group: 'digital', type: 'page', title: 'بازی و تنظیم توقف', route: '/paths/digital-parenting/gaming', summary: 'از تعارض بازی تا انتقال آرام' },
+  { id: 'gameFinish', label: 'بازی را تمام نمی‌کند', group: 'digital', type: 'page', title: 'بازی را تمام نمی‌کند', route: '/paths/digital-parenting/game-transition', summary: 'وقتی توقف در بازی دشوار می‌شود' },
+  { id: 'socialMedia', label: 'شبکه‌های اجتماعی', group: 'digital', type: 'page', title: 'شبکه‌های اجتماعی', route: '/paths/digital-parenting/social-media', summary: 'گفت‌وگو، حریم خصوصی و مقایسه' },
+  { id: 'youtube', label: 'YouTube', group: 'digital', type: 'page', title: 'YouTube و ویدیو', route: '/paths/digital-parenting/youtube', summary: 'محتوا، autoplay و تماشای مشترک' },
+  { id: 'tiktok', label: 'TikTok', group: 'digital', type: 'page', title: 'TikTok و ویدیوهای کوتاه', route: '/paths/digital-parenting/tiktok', summary: 'الگوریتم، حریم خصوصی و زمان' },
+  { id: 'roblox', label: 'Roblox', group: 'digital', type: 'page', title: 'Roblox', route: '/paths/digital-parenting/roblox', summary: 'بازی، چت و خرید درون‌برنامه‌ای' },
+  { id: 'fortnite', label: 'Fortnite', group: 'digital', type: 'page', title: 'Fortnite', route: '/paths/digital-parenting/fortnite', summary: 'بازی آنلاین، صدا و مرزگذاری' },
+  { id: 'sleepScreens', label: 'خواب و صفحه', group: 'digital', type: 'page', title: 'خواب و صفحه‌نمایش', route: '/paths/digital-parenting/sleep-and-screens', summary: 'روتین شب و فاصله از صفحه' },
+  { id: 'onlineSafety', label: 'امنیت آنلاین', group: 'digital', type: 'page', title: 'امنیت آنلاین', route: '/paths/digital-parenting/online-safety', summary: 'غریبه‌ها، پیام‌ها و گزارش‌دادن' },
+  { id: 'parentalControls', label: 'کنترل والدین', group: 'digital', type: 'page', title: 'کنترل والدین', route: '/paths/digital-parenting/parental-controls', summary: 'ابزار فنی در کنار گفت‌وگو و اعتماد' },
+  { id: 'child', label: 'مسیر کودک ۷ تا ۱۲ سال', group: 'main', type: 'category', title: 'مسیر کودک ۷ تا ۱۲ سال', route: '/child', summary: 'خودشناسی، احساس، هدف و بازی مشترک' },
+  { id: 'childSelfUnderstanding', label: 'خودشناسی', group: 'child', type: 'page', title: 'خودشناسی کودک', route: '/child/self-understanding', summary: 'من کی هستم و چه چیزی برایم مهم است؟' },
+  { id: 'childMyDay', label: 'روز من و روتین', group: 'child', type: 'page', title: 'روز من و روتین', route: '/child/my-day-and-routine', summary: 'ساختن روزی قابل پیش‌بینی و آرام' },
+  { id: 'childFeelings', label: 'احساس و تنظیم', group: 'child', type: 'page', title: 'احساس‌ها و تنظیم هیجان', route: '/child/feelings-and-regulation', summary: 'احساس را بشناسیم و برایش راه پیدا کنیم' },
+  { id: 'whyPlay', label: 'چرا بازی؟', group: 'child', type: 'page', title: 'چرا بازی؟', route: '/child/why-play', summary: 'بازی به‌عنوان زبان ارتباط کودک' },
+  { id: 'childGameEnds', label: 'وقتی بازی تمام می‌شود', group: 'child', type: 'page', title: 'وقتی بازی تمام می‌شود', route: '/child/when-the-game-ends', summary: 'تمرین انتقال از بازی به کار بعدی' },
+  { id: 'childWeeklyPlan', label: 'برنامه هفتگی کودک', group: 'child', type: 'page', title: 'برنامه هفتگی کودک', route: '/child/weekly-plan', summary: 'برنامه‌ای ساده برای هدف و عادت' },
+  { id: 'familyPlan', label: 'برنامه خانواده', group: 'main', type: 'page', title: 'برنامه خانواده', route: '/family-plan', summary: 'قرارهای مشترک، قانون‌های خانه و برنامه مرور' },
+  { id: 'problems', label: 'کتابخانه مشکل‌ها', group: 'main', type: 'category', title: 'مشکلی که الآن دارم', route: '/problems', summary: 'از مسئله به راهکار مناسب برسید' },
+  { id: 'solutions', label: 'راهکارها', group: 'main', type: 'category', title: 'صفحه‌های راهکار', route: '/solutions', summary: 'اقدام‌های کوتاه، امن و قابل اجرا' },
+  { id: 'programs', label: 'برنامه‌ها', group: 'main', type: 'category', title: 'برنامه‌های ۷روزه و ۳۰روزه', route: '/programs', summary: 'تغییر کوچک با تکرار و مرور' },
+  { id: 'search', label: 'جست‌وجو', group: 'main', type: 'page', title: 'جست‌وجو', route: '/search', summary: 'پیدا کردن مسیر، درس، مشکل و راهکار' }
 ];
 
 export { routes };
