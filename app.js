@@ -1,11 +1,10 @@
-const { routes } = await import('./data/routes.js');
+import { routes } from './data/routes.js';
 
+const app = document.querySelector('#app');
 const state = {
   language: 'fa',
   activeRoute: 'home',
-  completed: {},
-  checklist: {},
-  progress: 10
+  progress: 18
 };
 
 const translations = {
@@ -41,7 +40,152 @@ const translations = {
   }
 };
 
-const app = document.querySelector('#app');
+const contentById = {
+  generationGap: {
+    title: 'شکاف نسل‌ها',
+    intro: 'تفاوت‌ها واقعاً به معنی فاصله و درگیری هستند؛ اما اگر درست فهمیده شوند، می‌توانند زمینه‌ی نزدیکی و درک بهتر شوند.',
+    sections: [
+      {
+        heading: 'چه چیزی می‌بینی؟',
+        body: ['فرزند می‌گوید «تو مرا نمی‌فهمی»', 'والد احساس می‌کند همیشه باید کنترل کند', 'هریک از طرفین، رفتار طرف مقابل را اشتباه می‌بیند']
+      },
+      {
+        heading: 'پشت این رفتار چه می‌تواند باشد؟',
+        body: ['تفاوت تجربه و فضای زندگی', 'احساس خسته بودن و عدم شنیده شدن', 'تفاوت در مفهوم احترام و اقتدار']
+      },
+      {
+        heading: 'دستورالعمل کوتاه',
+        body: ['در لحظه آتش‌سوزی، قضاوت نکن', 'احساس کودک را بازتاب بده', 'بعد از آرام شدن درباره‌ی قانون و مرز حرف بزن']
+      }
+    ]
+  },
+  parentConnection: {
+    title: 'ارتباط والد و فرزند',
+    intro: 'ارتباط خوب به معنی قبول همه چیز نیست؛ به معنی شنیدن، درک و تنظیم درست رابطه بدون تحقیر است.',
+    sections: [
+      {
+        heading: 'چه چیزی می‌بینی؟',
+        body: ['گفت‌وگو کوتاه می‌شود', 'هر موضوعی به دعوا تبدیل می‌شود', 'کودک با والد حرف نمی‌زند']
+      },
+      {
+        heading: 'الگوی بهتر',
+        body: ['مشاهده اول', 'سؤال باز دوم', 'بازتاب احساس سوم', 'راهکار در پایان']
+      },
+      {
+        heading: 'جمله‌ی آماده',
+        body: ['می‌خواهم واقعاً بفهمم چه اتفاقی افتاده است.', 'قبل از تصمیم‌گیری، می‌خواهم حرفت را بشنوم.']
+      }
+    ]
+  },
+  boundaries: {
+    title: 'مرزگذاری سالم',
+    intro: 'مرز به معنی کنترل نیست؛ مرز یعنی روشن‌بودن، قابل پیش‌بینی بودن و اجرای منظم قانون.',
+    sections: [
+      {
+        heading: 'قانون کوتاه',
+        body: ['قانون را کوتاه بگو', 'دلیل را ساده توضیح بده', 'پیامد را روشن و منطقی اجرا کن']
+      },
+      {
+        heading: 'چه چیزهایی بدتر می‌کند؟',
+        body: ['اخطارهای غیرقابل اجرا', 'قانون‌های ناپیوسته', 'تحقیر در لحظه ناراحتی']
+      },
+      {
+        heading: 'چک‌لیست',
+        body: ['قانون مشخص است', 'پیامد منطقی است', 'رابطه از دست نرفته است']
+      }
+    ]
+  },
+  angerConflict: {
+    title: 'خشم و تعارض',
+    intro: 'در لحظه خشم، آموزش نباید اولویت اول باشد؛ ایمنی و آرامش باید اولویت باشند.',
+    sections: [
+      {
+        heading: 'در لحظه بحران',
+        body: ['ایمنی را بررسی کن', 'صدایت را پایین نگه دار', 'فاصله بده و بعد دوباره صحبت کن']
+      },
+      {
+        heading: 'گفت‌وگو بعدی',
+        body: ['چه اتفاقی افتاد؟', 'چه احساسی داشتی؟', 'در دفعه بعد چه چیزی کمک می‌کند؟']
+      },
+      {
+        heading: 'جمله‌ی آماده',
+        body: ['می‌بینم خیلی عصبانی هستی.', 'خشم قابل قبول است، آسیب‌زدن قابل قبول نیست.']
+      }
+    ]
+  },
+  repairAfterConflict: {
+    title: 'ترمیم رابطه بعد از دعوا',
+    intro: 'ترمیم یعنی قبول سهم خود، شنیدن احساس فرزند، و بازسازی اعتماد بدون توجیه یا انکار.',
+    sections: [
+      {
+        heading: 'الگوی ترمیم',
+        body: ['اتفاق را دقیق توصیف کن', 'سهم خودت را بپذیر', 'احساس فرزند را بشناس', 'برای دفعه بعد برنامه‌ریزی کن']
+      },
+      {
+        heading: 'عذرخواهی سالم',
+        body: ['بیان روشن', 'بدون بهانه', 'بدون حذف قانون', 'با تغییر رفتار همراه']
+      },
+      {
+        heading: 'نمونه جمله',
+        body: ['امروز در لحظه خشم، راه درست را انتخاب نکردم. می‌خواهم درباره‌اش با تو حرف بزنم.']
+      }
+    ]
+  },
+  selfEsteem: {
+    title: 'عزت‌نفس و مقایسه',
+    intro: 'کودک یا نوجوانی که دائما خود را با دیگران می‌سنجد، اغلب به احساس ناکافی بودن رسیده است. هدف این است که از مقایسه به رشد واقعی برسیم.',
+    sections: [
+      {
+        heading: 'نشانه‌ها',
+        body: ['زیاد از خود می‌پرسد «چقدر خوبم؟»', 'همیشه از کسی بهتر می‌خواهد باشد', 'نسبت به اشتباه‌های کوچک خیلی زود شرم می‌خورد']
+      },
+      {
+        heading: 'چه کار کنیم؟',
+        body: ['احساس را بپذیریم', 'به‌جای تحقیر، روی رشد تمرکز کنیم', 'نکات مثبت واقعی را بپذیریم']
+      },
+      {
+        heading: 'جمله آماده',
+        body: ['تفاوت میان دو نفر به معنی بدتر بودن یکی نیست.', 'ما به‌جای مقایسه، روی رشد واقعی تمرکز می‌کنیم.']
+      }
+    ]
+  },
+  schoolPressure: {
+    title: 'مدرسه و فشار',
+    intro: 'فشار تحصیلی معمولاً فقط یک مسئله‌ی درس نیست؛ گاهی ترس از قضاوت، ناکامی، خستگی و ناامیدی پشت آن است.',
+    sections: [
+      {
+        heading: 'چه چیزهایی دیده می‌شود؟',
+        body: ['بازگشت به بحث درس', 'دفاع از خود', 'سردرگمی، خستگی یا اجتناب']
+      },
+      {
+        heading: 'الگوهای بهتر',
+        body: ['مشکل را پیدا کن', 'کار را کوتاه و مشخص کن', 'برنامه را با کودک طراحی کن']
+      },
+      {
+        heading: 'جمله آماده',
+        body: ['می‌خواهم بفهمم کدام مرحله از درس برایت سخت است؟', 'بیایید قدم به قدم، بدون فشار، پیش برویم.']
+      }
+    ]
+  },
+  burnout: {
+    title: 'والد کافی و فرسودگی',
+    intro: 'فرسودگی والد به معنی بد بودن نیست؛ به معنی این است که باید به مراقبت از خود و تنظیم نیازها هم توجه کنیم.',
+    sections: [
+      {
+        heading: 'نشانه‌ها',
+        body: ['خستگی مداوم', 'حساسیت زیاد', 'کم‌حوصله شدن', 'فرسودگی پس از چند روز مداوم']
+      },
+      {
+        heading: 'چه کنیم؟',
+        body: ['قبل از قضاوت، آرامش را پیدا کنیم', 'از زبان «من» استفاده کنیم', 'کمک بگیریم و استراحت تعیین کنیم']
+      },
+      {
+        heading: 'جمله آماده',
+        body: ['من خسته‌ام، و این یعنی به استراحت و کمک نیاز دارم.', 'والد بودن یعنی مراقبت از خود هم هست.']
+      }
+    ]
+  }
+};
 
 function getText(key) {
   return translations[state.language]?.[key] ?? key;
@@ -49,11 +193,6 @@ function getText(key) {
 
 function getRouteById(id) {
   return routes.find((route) => route.id === id) || routes[0];
-}
-
-function getParentRouteGroup(groupId) {
-  const group = routes.find((route) => route.id === groupId);
-  return group || null;
 }
 
 function renderHome() {
@@ -69,26 +208,11 @@ function renderHome() {
         </div>
 
         <nav class="nav">
-          <button class="nav-item active" data-route="home">
-            <span>🏠</span>
-            <span>${getText('home')}</span>
-          </button>
-          <button class="nav-item" data-route="parent">
-            <span>❤️</span>
-            <span>${getText('parent')}</span>
-          </button>
-          <button class="nav-item" data-route="digital">
-            <span>📱</span>
-            <span>${getText('digital')}</span>
-          </button>
-          <button class="nav-item" data-route="child">
-            <span>🧒</span>
-            <span>${getText('child')}</span>
-          </button>
-          <button class="nav-item" data-route="familyPlan">
-            <span>📋</span>
-            <span>${getText('familyPlan')}</span>
-          </button>
+          <button class="nav-item active" data-route="home"><span>🏠</span><span>${getText('home')}</span></button>
+          <button class="nav-item" data-route="parent"><span>❤️</span><span>${getText('parent')}</span></button>
+          <button class="nav-item" data-route="digital"><span>📱</span><span>${getText('digital')}</span></button>
+          <button class="nav-item" data-route="child"><span>🧒</span><span>${getText('child')}</span></button>
+          <button class="nav-item" data-route="familyPlan"><span>📋</span><span>${getText('familyPlan')}</span></button>
         </nav>
 
         <div class="side-card">
@@ -112,10 +236,10 @@ function renderHome() {
 
         <section class="hero">
           <div>
-            <p class="eyebrow"> relationship-first</p>
+            <p class="eyebrow">relationship-first</p>
             <h3>فرزندم را بهتر بفهمم</h3>
             <p>
-              هسته اصلی این دوره، ارتباط والد و فرزند است و در این مسیر، مسائل دیجیتال، امنیت آنلاین و برنامه خانواده در خدمت همان رابطه قرار می‌گیرند.
+              هسته اصلی این دوره، ارتباط والد و فرزند است. در این مسیر، مسائل دیجیتال و خانواده به‌عنوان ابزارهای عملی در خدمت همان رابطه قرار می‌گیرند.
             </p>
           </div>
           <button class="primary-btn" data-route="parent">${getText('start')}</button>
@@ -166,7 +290,7 @@ function renderHome() {
 }
 
 function renderCategoryPage(routeId) {
-  const group = getParentRouteGroup(routeId);
+  const group = routes.find((route) => route.id === routeId);
   const children = routes.filter((item) => item.group === routeId && item.id !== routeId);
 
   return `
@@ -197,39 +321,35 @@ function renderCategoryPage(routeId) {
           <div>
             <h3>${group?.title || 'مسیر'}</h3>
             <p>
-              در این مسیر، پروژه بر پایه‌ی ارتباط، فهم، مرزگذاری و ترمیم رابطه طراحی شده است. بخش دیجیتال در خدمت همین مسیر قرار می‌گیرد.
+              در این مسیر، تمرکز اصلی روی فهم کودک و نوجوان، مرزگذاری، خشم، ترمیم رابطه و ارتباط است. بخش دیجیتال در خدمت همین مسیر است.
             </p>
           </div>
         </section>
 
         <section class="cards-grid">
-          ${children
-            .map(
-              (item) => `
-                <article class="info-card" data-route="${item.id}">
-                  <span class="icon">${item.group === 'digital' ? '📱' : item.group === 'parent' ? '❤️' : '🧒'}</span>
-                  <h4>${item.label}</h4>
-                  <p>${item.summary}</p>
-                </article>
-              `
-            )
-            .join('')}
+          ${children.map((item) => `
+            <article class="info-card" data-route="${item.id}">
+              <span class="icon">${item.group === 'digital' ? '📱' : item.group === 'parent' ? '❤️' : '🧒'}</span>
+              <h4>${item.label}</h4>
+              <p>${item.summary}</p>
+            </article>
+          `).join('')}
         </section>
       </main>
     </div>
   `;
 }
 
-function renderPage(routeId) {
-  const route = getRouteById(routeId);
-  const hasChildren = routes.some((item) => item.group === routeId);
-
-  if (hasChildren && route.type !== 'page') {
-    return renderCategoryPage(routeId);
-  }
-
-  const title = route.title || 'صفحه';
-  const summary = route.summary || 'توضیح کوتاه';
+function renderStaticPage(routeId) {
+  const route = routes.find((item) => item.id === routeId) || routes[0];
+  const content = contentById[routeId] || {
+    title: route.title,
+    intro: route.summary,
+    sections: [
+      { heading: 'چه چیزی می‌بینی؟', body: ['درک و تشخیص مسئله', 'مشاهده رفتار و واکنش‌ها', 'بازتاب احساس یکدیگر'] },
+      { heading: 'چه کار کنیم؟', body: ['سکوت قضاوت‌آمیز', 'گفت‌وگوی آرام', 'مرز روشن و کوتاه'] }
+    ]
+  };
 
   return `
     <div class="shell">
@@ -238,7 +358,7 @@ function renderPage(routeId) {
           <div class="brand-badge">📘</div>
           <div>
             <p class="eyebrow">PAGE</p>
-            <h1>${title}</h1>
+            <h1>${content.title}</h1>
           </div>
         </div>
         <nav class="nav">
@@ -252,59 +372,28 @@ function renderPage(routeId) {
       <main class="main-panel">
         <header class="topbar">
           <div>
-            <p class="eyebrow">${summary}</p>
-            <h2>${title}</h2>
+            <p class="eyebrow">${route.summary}</p>
+            <h2>${content.title}</h2>
           </div>
         </header>
 
         <section class="hero compact page-hero">
           <div>
             <p class="eyebrow">CORE CONTENT</p>
-            <h3>${title}</h3>
-            <p>
-              این صفحه برای ادامه توسعه محتوای دوره آماده است. ساختار آن با الگوی استاندارد پروژه تنظیم شده است: مسئله، علت احتمالی، کارهایی که نباید انجام شود، کارهایی که باید انجام شود، جمله‌های آماده، چک‌لیست و برنامه ۷روزه.
-            </p>
+            <h3>${content.title}</h3>
+            <p>${content.intro}</p>
           </div>
         </section>
 
         <section class="content-boxes">
-          <article class="content-box">
-            <h4>چه چیزی می‌بینی؟</h4>
-            <p>در این صفحه، رفتار واقعی کودک یا والد به‌صورت روشن توضیح داده می‌شود و مسئله از دید خانواده بررسی می‌شود.</p>
-          </article>
-
-          <article class="content-box">
-            <h4>پشت این رفتار چه می‌تواند باشد؟</h4>
-            <p>درک علت‌های روان‌شناختی، هیجانی و رفتاری قبل از پاسخ‌گویی ضروری است.</p>
-          </article>
-
-          <article class="content-box">
-            <h4>این کارها را نکن</h4>
-            <p>تحقیر، مقایسه، بیش از حد نصیحت کردن و حفظ رابطه با قضاوت باعث بدتر شدن مشکل می‌شود.</p>
-          </article>
-
-          <article class="content-box">
-            <h4>همین امروز چه کار کنم؟</h4>
-            <p>یک اقدام کوتاه، عینی و قابل اجرا برای ایجاد آرامش، همدلی یا مرزگذاری.</p>
-          </article>
-
-          <article class="content-box">
-            <h4>جمله‌های آماده</h4>
-            <ul>
-              <li>«می‌خواهم واقعاً بفهمم چه اتفاقی افتاده است.»</li>
-              <li>«قبل از تصمیم‌گیری، می‌خواهم حرفت را بشنوم.»</li>
-              <li>«احساس خشم قابل قبول است، اما آسیب‌زدن قابل قبول نیست.»</li>
-            </ul>
-          </article>
-
-          <article class="content-box">
-            <h4>چک‌لیست</h4>
-            <ul class="checklist">
-              <li>✔ رفتار را بدون قضاوت دیده‌ام.</li>
-              <li>✔ یک سؤال باز پرسیده‌ام.</li>
-              <li>✔ یک راه‌حل کوتاه و منطقی پیشنهاد کرده‌ام.</li>
-            </ul>
-          </article>
+          ${content.sections.map((section) => `
+            <article class="content-box">
+              <h4>${section.heading}</h4>
+              <ul>
+                ${section.body.map((line) => `<li>${line}</li>`).join('')}
+              </ul>
+            </article>
+          `).join('')}
         </section>
 
         <div class="pager">
@@ -317,47 +406,49 @@ function renderPage(routeId) {
 }
 
 function render() {
-  const routeId = state.activeRoute;
-  const route = getRouteById(routeId);
-  const html = route && (route.type === 'category' || route.id === 'home') ? renderCategoryPage(routeId) : renderPage(routeId);
+  const route = routes.find((item) => item.id === state.activeRoute) || routes[0];
 
-  if (routeId === 'home') {
+  if (state.activeRoute === 'home') {
     app.innerHTML = renderHome();
     return;
   }
 
-  app.innerHTML = html;
+  if (route.type === 'category') {
+    app.innerHTML = renderCategoryPage(route.id);
+    return;
+  }
+
+  app.innerHTML = renderStaticPage(route.id);
 }
 
-function attachEvents() {
+function bindEvents() {
   document.querySelectorAll('[data-route]').forEach((button) => {
     button.addEventListener('click', () => {
       const routeId = button.dataset.route;
-      if (routeId) {
-        state.activeRoute = routeId;
-        render();
-        attachEvents();
-      }
+      if (!routeId) return;
+      state.activeRoute = routeId;
+      render();
+      bindEvents();
     });
   });
 
   document.querySelectorAll('[data-action="previous"]').forEach((button) => {
     button.addEventListener('click', () => {
-      const currentIndex = routes.findIndex((route) => route.id === state.activeRoute);
-      const prev = routes[Math.max(0, currentIndex - 1)];
+      const idx = routes.findIndex((route) => route.id === state.activeRoute);
+      const prev = routes[Math.max(0, idx - 1)];
       state.activeRoute = prev.id;
       render();
-      attachEvents();
+      bindEvents();
     });
   });
 
   document.querySelectorAll('[data-action="next"]').forEach((button) => {
     button.addEventListener('click', () => {
-      const currentIndex = routes.findIndex((route) => route.id === state.activeRoute);
-      const next = routes[Math.min(routes.length - 1, currentIndex + 1)];
+      const idx = routes.findIndex((route) => route.id === state.activeRoute);
+      const next = routes[Math.min(routes.length - 1, idx + 1)];
       state.activeRoute = next.id;
       render();
-      attachEvents();
+      bindEvents();
     });
   });
 
@@ -365,14 +456,10 @@ function attachEvents() {
     button.addEventListener('click', () => {
       state.language = button.dataset.lang || 'fa';
       render();
-      attachEvents();
+      bindEvents();
     });
   });
 }
 
-function init() {
-  render();
-  attachEvents();
-}
-
-init();
+render();
+bindEvents();

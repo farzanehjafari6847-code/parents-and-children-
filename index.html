@@ -1,75 +1,23 @@
-# Parenting Course
-
-This project is a prototype for a parenting and family relationship learning platform. The main axis is the parent-child relationship, and digital parenting is handled as a practical extension of that core foundation.
-
-## Relationship-first design
-
-The learning architecture is intentionally structured around the same logic as the course design:
-
-- Parent guidance and relationship
-- Digital parenting tools and safety
-- Child-friendly learning path for ages 7–12
-- Family agreement and recurring plans
-
-## Core idea
-
-The project avoids treating digital safety as a separate topic only. Instead, it assumes that healthy digital boundaries are the outcome of healthy family communication, emotional awareness, and clear parenting structure.
-
-## Multi-language architecture
-
-The base app is structured to support additional languages without rewriting the app shell. The current reference language is Persian, and the app is designed for future expansion into Swedish, English, and German.
-
-## Route architecture
-
-The route layer is held in `data/routes.js` and should be extended without restructuring the whole app.
-
-## Base route groups
-
-```text
-home
-parent
-  generationGap
-  parentConnection
-  boundaries
-  angerConflict
-  repairAfterConflict
-  selfEsteem
-  schoolPressure
-  burnout
-child
-  childPath
-  childMyDay
-  whyPlay
-  whenGameEnds
-  weeklyPlan
-family
-  familyPlan
-  digitalPlan
-digital
-  gameFinish
-  strangers
-  aiSafety
-  technicalGuide
-```
-
-## Local run
-
-```bash
-python -m http.server 8000
-```
-
-Then open:
-
-```text
-http://localhost:8000
-```
-
-## Design goals
-
-- maintainability
-- route modularity
-- translation-ready structure
-- parent-first content design
-- mobile and desktop support
-- checklist and progress tracking
-- extensible content system
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Parenting Course</title>
+    <meta
+      name="description"
+      content="Parenting course prototype focused on family relationships, digital parenting, and child development."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>

@@ -1,65 +1,375 @@
-# Parenting Course
+* {
+  box-sizing: border-box;
+}
 
-A multilingual parenting course prototype with a relationship-first architecture. The project keeps parent-child connection as the core learning path, while digital parenting is treated as a supporting layer and practical application of the same skills.
+:root {
+  --bg: #f6f3ec;
+  --panel: #fffdfb;
+  --panel-alt: #f3efe9;
+  --primary: #5a7c6a;
+  --primary-dark: #2d4b3d;
+  --accent: #d67a58;
+  --ink: #1f2d27;
+  --muted: #566b62;
+  --border: rgba(31, 45, 39, 0.1);
+  --shadow: 0 18px 40px rgba(23, 33, 29, 0.08);
+}
 
-## Project goal
+html {
+  scroll-behavior: smooth;
+}
 
-This project helps parents and caregivers:
+body {
+  margin: 0;
+  background: linear-gradient(180deg, #f5f1e8 0%, #f9f7f2 100%);
+  color: var(--ink);
+  font-family: 'Vazirmatn', sans-serif;
+  direction: rtl;
+}
 
-- understand children and adolescents
-- work through generational gaps and relationship friction
-- set boundaries without shame or control
-- manage digital parenting with calmer, more consistent tools
-- support healthier family communication and stronger trust
+button {
+  font: inherit;
+}
 
-## Architecture
+#app {
+  min-height: 100vh;
+}
 
-- Core path: Parent relationship and guidance
-- Supporting path: Digital parenting and device safety
-- Child path: ages 7–12
-- Family plan: printable family agreement and digital safety plan
+.shell {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  min-height: 100vh;
+}
 
-## Base structure
+.sidebar {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(10px);
+  border-left: 1px solid var(--border);
+  padding: 20px 18px;
+}
 
-```text
-parenting-course/
-├── README.md
-├── index.html
-├── styles.css
-├── app.js
-├── content-map.md
-├── data/
-│   └── routes.js
-├── assets/
-│   └── icons/
-├── docs/
-│   ├── content-architecture.md
-│   └── technical-guides.md
-└── .gitignore
-```
+.brand-block {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 8px 18px;
+  margin-bottom: 18px;
+}
 
-## Local run
+.brand-badge {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, var(--primary), #7aa086);
+  display: grid;
+  place-items: center;
+  color: white;
+  font-size: 1.5rem;
+  box-shadow: var(--shadow);
+}
 
-```bash
-python -m http.server 8000
-```
+.brand-block h1 {
+  margin: 0;
+  font-size: 1.3rem;
+}
 
-Then open:
+.eyebrow {
+  margin: 0 0 5px;
+  color: var(--muted);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
 
-```text
-http://localhost:8000
-```
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
 
-## Roadmap
+.nav-item,
+.problem-chip,
+.lang,
+.primary-btn,
+.secondary-btn,
+.info-card,
+.content-box,
+.side-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
 
-- Phase 1: base structure, navigation, route architecture, multi-language support
-- Phase 2: parent path pages and core relationship content
-- Phase 3: digital parenting and technical guides
-- Phase 4: child path and family plan
-- Phase 5: localization and content expansion
+.nav-item {
+  border: 1px solid transparent;
+  background: transparent;
+  border-radius: 14px;
+  padding: 12px 14px;
+  text-align: right;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  color: var(--ink);
+  cursor: pointer;
+}
 
-## Notes
+.nav-item.active,
+.nav-item:hover,
+.problem-chip:hover,
+.lang:hover,
+.info-card:hover,
+.content-box:hover {
+  background: rgba(90, 124, 106, 0.08);
+  border-color: rgba(90, 124, 106, 0.15);
+}
 
-- The default language is Persian (fa).
-- The app is designed to support RTL/LTR layout switching
-- The project is built for subsequent extension without a full rewrite.
+.side-card {
+  margin-top: 26px;
+  background: var(--panel-alt);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 14px 16px;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 10px;
+  background: rgba(31, 45, 39, 0.08);
+  border-radius: 999px;
+  overflow: hidden;
+  margin: 10px 0 12px;
+}
+
+.progress-bar span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  border-radius: inherit;
+}
+
+.main-panel {
+  padding: 26px 28px 40px;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.topbar h2,
+.hero h3,
+.section-title-wrap h3,
+.content-box h4,
+.info-card h4,
+.page-hero h3 {
+  margin: 0;
+}
+
+.lang-switch {
+  display: inline-flex;
+  gap: 8px;
+  padding: 6px;
+  border-radius: 999px;
+  background: rgba(90, 124, 106, 0.08);
+}
+
+.lang {
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  border-radius: 999px;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.lang.active {
+  background: white;
+  color: var(--primary-dark);
+  box-shadow: 0 6px 18px rgba(31, 45, 39, 0.12);
+}
+
+.hero {
+  background: linear-gradient(135deg, rgba(90, 124, 106, 0.15), rgba(214, 122, 88, 0.08));
+  border: 1px solid rgba(90, 124, 106, 0.15);
+  border-radius: 24px;
+  padding: 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 22px;
+}
+
+.hero h3 {
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  margin-bottom: 8px;
+}
+
+.hero p {
+  margin: 0;
+  max-width: 760px;
+  color: var(--muted);
+  line-height: 1.8;
+}
+
+.primary-btn,
+.secondary-btn {
+  border: none;
+  border-radius: 14px;
+  padding: 12px 18px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.primary-btn {
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: white;
+  box-shadow: 0 12px 24px rgba(46, 77, 60, 0.22);
+}
+
+.secondary-btn {
+  background: rgba(90, 124, 106, 0.08);
+  color: var(--primary-dark);
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 18px;
+  margin-bottom: 28px;
+}
+
+.info-card,
+.content-box {
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 18px 18px 16px;
+  box-shadow: 0 8px 24px rgba(17, 24, 19, 0.03);
+  cursor: pointer;
+}
+
+.info-card .icon {
+  display: inline-grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: rgba(90, 124, 106, 0.08);
+  font-size: 1.5rem;
+  margin-bottom: 12px;
+}
+
+.info-card h4 {
+  margin: 0 0 7px;
+  font-size: 1.08rem;
+}
+
+.info-card p,
+.content-box p,
+.content-box li,
+.problem-section p,
+.hero p {
+  color: var(--muted);
+  line-height: 1.8;
+}
+
+.problem-section {
+  margin-top: 20px;
+}
+
+.section-title-wrap {
+  margin-bottom: 14px;
+}
+
+.problem-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.problem-chip {
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.75);
+  color: var(--ink);
+  border-radius: 999px;
+  padding: 10px 14px;
+  cursor: pointer;
+}
+
+.page-hero {
+  margin-bottom: 28px;
+}
+
+.content-boxes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 18px;
+}
+
+.content-box {
+  cursor: default;
+}
+
+.content-box ul {
+  margin: 10px 0 0 0;
+  padding-right: 18px;
+}
+
+.content-box li + li {
+  margin-top: 10px;
+}
+
+.content-box .checklist {
+  padding-right: 0;
+  list-style: none;
+}
+
+.content-box .checklist li {
+  border-bottom: 1px solid rgba(31, 45, 39, 0.07);
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+}
+
+.pager {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+@media (max-width: 960px) {
+  .shell {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    border-left: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .hero {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 640px) {
+  .main-panel {
+    padding: 18px 16px 28px;
+  }
+
+  .topbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .hero {
+    padding: 20px 18px;
+  }
+
+  .pager {
+    flex-direction: column;
+    gap: 10px;
+  }
+}

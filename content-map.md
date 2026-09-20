@@ -1,69 +1,59 @@
-# Content Map
+# Parenting Course
 
-## Project status
+A multilingual parenting course prototype built around a relationship-first design. The project keeps parent-child connection as the primary learning path, while digital parenting is treated as a useful supporting layer that grows out of healthy family communication, boundaries, and trust.
 
-- Status: Base architecture in progress
-- Core path: Parent-child relationship
-- Digital path: support layer for practical parenting
-- Child path: ages 7–12
-- Languages: Persian reference, multilingual-ready structure
+## Goals
 
-## Route groups
+- build a practical learning experience for parents and caregivers
+- keep the emotional and relational core of parenting central
+- integrate digital parenting in a way that supports healthy family dynamics
+- create an extensible architecture for future language support and content growth
+
+## Base structure
 
 ```text
-home
-parent
-  generationGap
-  parentConnection
-  boundaries
-  angerConflict
-  repairAfterConflict
-  selfEsteem
-  schoolPressure
-  burnout
-child
-  childPath
-  childMyDay
-  whyPlay
-  whenGameEnds
-  weeklyPlan
-family
-  familyPlan
-  digitalPlan
-digital
-  gameFinish
-  strangers
-  aiSafety
-  technicalGuide
+parenting-course/
+├── README.md
+├── index.html
+├── styles.css
+├── app.js
+├── content-map.md
+├── data/
+│   └── routes.js
+├── assets/
+│   └── icons/
+├── docs/
+│   ├── content-architecture.md
+│   └── technical-guides.md
+└── .gitignore
 ```
 
-## Purpose of the architecture
+## Current architecture
 
-This content map ensures that:
+- Core path: parenting and relationship
+- Support path: digital parenting
+- Child path: ages 7–12
+- Family path: family agreements and recurring plans
 
-- the parent-first model remains central
-- the digital path sits in service of the family relationship model
-- the child pathway can be added without rewriting the app shell
-- language switching remains modular and low-risk
-- navigation remains stable as additional pages are added
+## Current content focus
 
-## Current priority pages
-
-1. Home dashboard
-2. Parent relationship group
-3. Digital parenting group
-4. Child path skeleton
-5. Family plan
-6. Multilingual architecture
-
-## Core content themes already planned
-
-- generations gap and connection
-- emotional regulation and conflict
-- boundaries without shame
-- repair after conflict
-- self-esteem and social comparison
-- school pressure and family communication
+- generational gap and communication
+- parent-child connection
+- boundaries and emotional safety
+- conflict and repair after conflict
+- self-esteem and comparison
+- school stress and family pressure
 - caregiver burnout and support
-- digital safety and device settings
-- child self-understanding and daily routine
+- digital safety and family rules
+
+## Run locally
+
+```bash
+python -m http.server 8000
+```
+
+Then open:
+
+```text
+http://localhost:8000
+```
