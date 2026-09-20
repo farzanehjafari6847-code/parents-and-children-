@@ -1,0 +1,38 @@
+
+.lesson-shell { max-width: 1180px; margin: 0 auto; }
+.lesson-hero { align-items: flex-start; }
+.lesson-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.meta-pill, .tag-pill { display: inline-flex; align-items: center; border-radius: 999px; padding: 7px 11px; background: rgba(90,124,106,.1); color: var(--primary-dark); font-size: .85rem; }
+.lesson-section { margin: 22px 0; }
+.lesson-section > h3 { margin: 0 0 12px; font-size: 1.35rem; }
+.lesson-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; }
+.lesson-card { background: rgba(255,255,255,.78); border: 1px solid var(--border); border-radius: 18px; padding: 18px; box-shadow: 0 8px 24px rgba(17,24,19,.04); }
+.lesson-card h4 { margin: 0 0 10px; color: var(--primary-dark); }
+.lesson-card p { margin: 8px 0; color: var(--muted); line-height: 1.85; }
+.lesson-card ul { margin: 8px 0 0; padding-right: 20px; color: var(--muted); line-height: 1.9; }
+.lesson-card li + li { margin-top: 7px; }
+.age-card { border-top: 4px solid var(--primary); }
+.case-card { border-right: 4px solid var(--accent); }
+.map-flow { display: grid; gap: 8px; }
+.map-step { position: relative; padding: 12px 16px; background: var(--panel-alt); border-radius: 13px; color: var(--ink); }
+.map-step:not(:last-child)::after { content: '↓'; position: absolute; bottom: -17px; right: 50%; color: var(--accent); font-weight: 800; z-index: 1; }
+.interactive-panel { background: linear-gradient(135deg, rgba(90,124,106,.11), rgba(214,122,88,.08)); border: 1px solid rgba(90,124,106,.2); border-radius: 20px; padding: 20px; }
+.choice-list { display: grid; gap: 10px; margin-top: 14px; }
+.choice-button { width: 100%; text-align: right; border: 1px solid var(--border); border-radius: 13px; padding: 13px; background: rgba(255,255,255,.82); color: var(--ink); cursor: pointer; }
+.choice-button:hover, .choice-button.selected { border-color: var(--primary); background: rgba(90,124,106,.12); }
+.feedback-box { margin-top: 14px; padding: 15px; border-radius: 14px; background: white; line-height: 1.9; }
+.feedback-box strong { color: var(--primary-dark); }
+.check-row { display: flex; gap: 10px; align-items: flex-start; padding: 10px 0; border-bottom: 1px solid var(--border); color: var(--muted); }
+.check-row input { margin-top: 5px; accent-color: var(--primary); }
+.progress-summary { display: flex; justify-content: space-between; gap: 12px; align-items: center; margin: 12px 0; color: var(--muted); }
+.quiz-question { border-top: 1px solid var(--border); padding: 16px 0; }
+.quiz-option { display: block; margin: 8px 0; color: var(--muted); }
+.quiz-option input { margin-left: 7px; accent-color: var(--primary); }
+.action-card { background: linear-gradient(135deg, var(--primary-dark), var(--primary)); color: white; border-radius: 20px; padding: 22px; }
+.action-card h3, .action-card p { color: white; }
+.action-card ol { margin: 10px 0; line-height: 2; }
+.resource-list a { color: var(--primary-dark); }
+.resource-list li + li { margin-top: 9px; }
+.program-day { display: flex; gap: 12px; align-items: flex-start; }
+.day-number { min-width: 34px; height: 34px; display: grid; place-items: center; border-radius: 50%; background: var(--accent); color: white; font-weight: 800; }
+@media (max-width: 640px) { .lesson-shell { width: 100%; } .lesson-card { padding: 15px; } .map-step { padding: 10px 12px; } .lesson-hero { padding: 20px 16px; } }
