@@ -8,6 +8,8 @@ const state = {
   progress: 18,
   lesson: { scenarioChoice: null, checklist: {}, quiz: {}, steps: {} }
 };
+const routeFromPath = routes.find((r) => r.route === window.location.pathname);
+if (routeFromPath) state.activeRoute = routeFromPath.id;
 
 const translations = {
   fa: {
@@ -475,6 +477,8 @@ function bindEvents() {
       const routeId = button.dataset.route;
       if (!routeId) return;
       state.activeRoute = routeId;
+      const nextRoute = getRouteById(routeId);
+      if (nextRoute?.route && window.location.pathname !== nextRoute.route) history.pushState({ routeId }, '', nextRoute.route);
       render();
       bindEvents();
     });
@@ -527,3 +531,11 @@ function bindEvents() {
 
 render();
 bindEvents();
+
+
+window.addEventListener('popstate', () => {
+  const matched = routes.find((r) => r.route === window.location.pathname);
+  state.activeRoute = matched?.id || 'home';
+  render();
+  bindEvents();
+});
