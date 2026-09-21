@@ -36,3 +36,19 @@
 .program-day { display: flex; gap: 12px; align-items: flex-start; }
 .day-number { min-width: 34px; height: 34px; display: grid; place-items: center; border-radius: 50%; background: var(--accent); color: white; font-weight: 800; }
 @media (max-width: 640px) { .lesson-shell { width: 100%; } .lesson-card { padding: 15px; } .map-step { padding: 10px 12px; } .lesson-hero { padding: 20px 16px; } }
+
+.lesson-body > h3 { margin-top: 28px; color: var(--primary-dark); }
+.lesson-body > h3:first-child { margin-top: 0; }
+.lesson-body > p, .lesson-body > ul { color: var(--muted); line-height: 1.95; }
+.lesson-callout { margin: 16px 0; padding: 16px 18px; border-radius: 16px; background: rgba(90,124,106,.09); border-inline-start: 4px solid var(--primary); }
+.lesson-callout.aha { background: rgba(214,122,88,.10); border-inline-start-color: var(--accent); }
+.lesson-callout.safety { background: rgba(150,70,70,.08); border-inline-start-color: #965050; }
+.lesson-callout.action { background: rgba(90,124,106,.12); }
+.lesson-quote { margin: 18px 0; padding: 16px 20px; border-radius: 16px; background: var(--panel-alt); color: var(--primary-dark); font-weight: 600; line-height: 1.9; }
+.check-row small { opacity: .7; }
+.lesson-card label { cursor: pointer; }
+.lesson-section > h3 { scroll-margin-top: 20px; }
+@media (max-width: 860px) {
+  .lesson-shell .topbar { gap: 12px; }
+  .lesson-meta { gap: 6px; }
+}

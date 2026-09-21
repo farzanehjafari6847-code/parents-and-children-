@@ -1,11 +1,15 @@
 import { routes } from './data/routes.js';
+import { goldenLesson, sevenDayProgram } from './data/lessons.js';
 
 const app = document.querySelector('#app');
 const state = {
   language: 'fa',
   activeRoute: 'home',
-  progress: 18
+  progress: 18,
+  lesson: { scenarioChoice: null, checklist: {}, quiz: {}, steps: {} }
 };
+const routeFromPath = routes.find((r) => r.route === window.location.pathname);
+if (routeFromPath) state.activeRoute = routeFromPath.id;
 
 const translations = {
   fa: {
@@ -294,6 +298,111 @@ function renderCategoryPage(routeId) {
   `;
 }
 
+
+function localText(value) {
+  if (!value) return '';
+  if (typeof value === 'string') return value;
+  return value.translations?.[state.language] || value.default || '';
+}
+
+function renderBlocks(blocks = []) {
+  return blocks.map((block) => {
+    if (block.type === 'heading') return `<h3>${block.data.text}</h3>`;
+    if (block.type === 'paragraph') return `<p>${block.data.text}</p>`;
+    if (block.type === 'quote') return `<blockquote class="lesson-quote">${block.data.text}</blockquote>`;
+    if (block.type === 'list') return `<ul>${block.data.items.map((x) => `<li>${x}</li>`).join('')}</ul>`;
+    if (block.type === 'callout') return `<div class="lesson-callout ${block.data.tone || ''}"><strong>${block.data.title}</strong><p>${block.data.text}</p></div>`;
+    return '';
+  }).join('');
+}
+
+function checklistPercent() {
+  const required = goldenLesson.checklist.items.filter((x) => x.required);
+  const done = required.filter((x) => state.lesson.checklist[x.id]).length;
+  return Math.round((done / required.length) * 100);
+}
+
+function quizScore() {
+  return goldenLesson.quiz.questions.reduce((sum, q) => {
+    const answer = state.lesson.quiz[q.id];
+    if (!answer) return sum;
+    if (q.type === 'multiple') {
+      const selected = Array.isArray(answer) ? answer : [];
+      return sum + q.options.filter((o) => selected.includes(o.id)).reduce((s,o)=>s+o.score,0);
+    }
+    return sum + (q.options.find((o) => o.id === answer)?.score || 0);
+  }, 0);
+}
+
+function renderGoldenLesson() {
+  const lesson = goldenLesson;
+  const checked = checklistPercent();
+  const score = quizScore();
+  const scenario = lesson.scenario;
+  const selected = scenario.choices.find((x) => x.id === state.lesson.scenarioChoice);
+  const completedSteps = Object.values(state.lesson.steps).filter(Boolean).length;
+  const totalUnits = lesson.checklist.items.filter(x=>x.required).length + lesson.quiz.questions.length + lesson.practicalSteps.length + 1;
+  const doneUnits = Math.round(checked / 100 * lesson.checklist.items.filter(x=>x.required).length) + Object.keys(state.lesson.quiz).length + completedSteps + (state.lesson.scenarioChoice ? 1 : 0);
+  const lessonProgress = Math.min(100, Math.round(doneUnits / totalUnits * 100));
+  return `
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand-block"><div class="brand-badge">🌉</div><div><p class="eyebrow">GOLDEN LESSON</p><h1>${localText(lesson.title)}</h1></div></div>
+      <nav class="nav">
+        <button class="nav-item" data-route="home">🏠 خانه</button>
+        <button class="nav-item" data-route="parent">❤️ والدگری و رابطه</button>
+        <button class="nav-item active" data-route="generationGap">🌉 شکاف نسل‌ها</button>
+      </nav>
+      <div class="side-card"><p class="eyebrow">پیشرفت این درس</p><div class="progress-bar"><span style="width:${lessonProgress}%"></span></div><strong>${lessonProgress}%</strong></div>
+    </aside>
+    <main class="main-panel lesson-shell">
+      <header class="topbar"><div><p class="eyebrow">Connection + Boundary</p><h2>${localText(lesson.title)}</h2></div><div class="lang-switch"><button class="lang ${state.language==='fa'?'active':''}" data-lang="fa">فارسی</button><button class="lang ${state.language==='en'?'active':''}" data-lang="en">EN</button></div></header>
+
+      <section class="hero compact lesson-hero"><div><h3>${localText(lesson.title)}</h3><p>${localText(lesson.summary)}</p><div class="lesson-meta"><span class="meta-pill">⏱ ${lesson.estimatedMinutes} دقیقه</span><span class="meta-pill">👧 ۷–۱۸ سال</span><span class="meta-pill">🎯 عملی و تعاملی</span></div></div></section>
+
+      <section class="lesson-section"><h3>سه پنجره سنی</h3><div class="lesson-grid">${lesson.ageWindows.map(a=>`<article class="lesson-card age-card"><h4>${a.label}</h4><p><strong>نیاز برجسته:</strong> ${a.prominentNeed}</p><p><strong>این رفتار ممکن است یعنی:</strong> ${a.sameBehaviorDifferentMeaning}</p><p><strong>پاسخ والد:</strong> ${a.parentResponse}</p><p><strong>استقلال و حریم:</strong> ${a.autonomyPrivacyParticipation}</p></article>`).join('')}</div></section>
+
+      <section class="lesson-section"><h3>هسته آموزشی</h3><div class="lesson-card lesson-body">${renderBlocks(lesson.body)}</div></section>
+
+      <section class="lesson-section"><h3>سه Case واقعی</h3><div class="lesson-grid">
+        ${[
+          ['۸ سال','«تو همیشه دستور می‌دهی»','دستورها را کوتاه کن، یک انتخاب محدود بده و مرز ایمنی را روشن نگه دار.'],
+          ['۱۲ سال','«تو اصلاً من را نمی‌فهمی»','قبل از نتیجه‌گیری، نسخه کودک را بشنو و بین احساس و رفتار فرق بگذار.'],
+          ['۱۶ سال','مسائل شخصی را نمی‌گوید','حریم را محترم بدان، دعوت بدون بازجویی بده و فقط خطر واقعی را جداگانه بررسی کن.']
+        ].map(x=>`<article class="lesson-card case-card"><span class="tag-pill">${x[0]}</span><h4>${x[1]}</h4><p>${x[2]}</p></article>`).join('')}
+      </div></section>
+
+      <section class="lesson-section"><h3>Decision Map — نقشه تصمیم</h3><div class="lesson-card map-flow">
+        ${['چه می‌بینم؟ رفتار را بدون برچسب توصیف کن','چه چیزی ممکن است پشت رفتار باشد؟','آیا اول باید هیجان آرام شود؟','اتصال: یک سؤال باز و کوتاه','مرز: آیا ایمنی یا مسئولیت روشن مطرح است؟','اقدام کوچک را انتخاب کن','نتیجه را مشاهده کن','اگر لازم بود روش را تنظیم یا کمک تخصصی بگیر'].map(x=>`<div class="map-step">${x}</div>`).join('')}
+      </div></section>
+
+      <section class="lesson-section"><h3>جمله‌های آماده</h3><div class="lesson-grid">${lesson.readyPhrases.map(x=>`<article class="lesson-card"><p>${localText(x)}</p></article>`).join('')}</div></section>
+
+      <section class="lesson-section"><h3>قدم‌های عملی</h3><div class="lesson-grid">${lesson.practicalSteps.map(s=>`<article class="lesson-card"><label class="check-row"><input type="checkbox" data-step="${s.id}" ${state.lesson.steps[s.id]?'checked':''}><span><strong>${s.sequence}. ${localText(s.title)}</strong><br>${renderBlocks(localText(s.instruction))}</span></label></article>`).join('')}</div></section>
+
+      <section class="lesson-section interactive-panel"><h3>سناریوی تعاملی</h3><p>${localText(scenario.context)}</p><div class="choice-list">${scenario.choices.map(ch=>`<button class="choice-button ${state.lesson.scenarioChoice===ch.id?'selected':''}" data-scenario="${ch.id}">${localText(ch.label)}</button>`).join('')}</div>
+        ${selected?`<div class="feedback-box"><strong>نکته خوب:</strong> ${selected.feedback.good}<br><strong>ریسک:</strong> ${selected.feedback.risk}<br><strong>چه زمانی مناسب است:</strong> ${selected.feedback.whenAppropriate}<br><strong>گزینه بهتر در شرایط دیگر:</strong> ${selected.feedback.betterAlternative}</div>`:''}
+      </section>
+
+      <section class="lesson-section"><h3>Checklist — فهمیدن قبل از اصلاح</h3><div class="lesson-card"><div class="progress-summary"><span>موارد ضروری انجام‌شده</span><strong>${checked}%</strong></div><div class="progress-bar"><span style="width:${checked}%"></span></div>${lesson.checklist.items.map(i=>`<label class="check-row"><input type="checkbox" data-check="${i.id}" ${state.lesson.checklist[i.id]?'checked':''}><span>${localText(i.label)} ${i.required?'<small>• ضروری</small>':''}</span></label>`).join('')}</div></section>
+
+      <section class="lesson-section interactive-panel"><h3>${localText(lesson.quiz.title)}</h3>${lesson.quiz.questions.map(q=>`<div class="quiz-question"><strong>${q.sequence}. ${localText(q.prompt)}</strong>${q.options.map(o=>`<label class="quiz-option"><input type="${q.type==='multiple'?'checkbox':'radio'}" name="quiz-${q.id}" data-quiz="${q.id}" value="${o.id}" ${q.type==='multiple'?(state.lesson.quiz[q.id]||[]).includes(o.id)?'checked':'':state.lesson.quiz[q.id]===o.id?'checked':''}> ${localText(o.label)}</label>`).join('')}</div>`).join('')}<div class="feedback-box"><strong>امتیاز فعلی: ${score} / 6</strong><br>${score>=4?'مرور کامل شد؛ حالا کارت اقدام نهایی را در یک موقعیت واقعی اجرا کن.':'پاسخ‌ها را مرور کن؛ هدف فهم تفاوت میان اتصال، حریم و مرز است.'}</div></section>
+
+      <section class="lesson-section action-card"><h3>Final Action Card — اگر فردا دوباره اتفاق افتاد</h3><ol><li>مکث می‌کنم و رفتار قابل مشاهده را نام می‌برم.</li><li>یک سؤال باز می‌پرسم و گوش می‌دهم.</li><li>بخش قابل فهم تجربه کودک را بازتاب می‌دهم.</li><li>بر اساس ایمنی، یا مرز کوتاه می‌گذارم یا زمان بازگشت می‌دهم.</li></ol><p>«ممکن است برداشت من کامل نباشد؛ می‌خواهم اول بفهمم برای تو چه اتفاقی افتاد.»</p></section>
+
+      <section class="lesson-section"><h3>برنامه ۷روزه</h3><div class="lesson-grid">${sevenDayProgram.dayRefs.map(d=>`<article class="lesson-card program-day"><span class="day-number">${d.dayNumber}</span><div><h4>${localText(d.title)}</h4><p>${localText(d.objective)}</p><small>حدود ${d.estimatedMinutes} دقیقه</small></div></article>`).join('')}</div></section>
+
+      <section class="lesson-section"><h3>چه زمانی کمک تخصصی بگیریم؟</h3><div class="lesson-card lesson-callout safety"><p>${localText(lesson.specialistHelp.indicators[0])}</p><p>${localText(lesson.specialistHelp.disclaimer)}</p></div></section>
+
+      <section class="lesson-section"><h3>منابع علمی</h3><div class="lesson-card"><ul class="resource-list">${lesson.sources.map(s=>`<li><a href="${s.url}" target="_blank" rel="noopener noreferrer">${localText(s.title)}</a> — ${s.publisher}</li>`).join('')}</ul></div></section>
+
+      <section class="lesson-section"><h3>موضوعات مرتبط</h3><div class="problem-list"><button class="problem-chip" data-route="parentConnection">ارتباط والد و فرزند</button><button class="problem-chip" data-route="boundaries">مرزگذاری سالم</button><button class="problem-chip" data-route="gameFinish">پایان بازی</button></div></section>
+
+      <div class="pager"><button class="secondary-btn" data-route="parent">قبلی: مسیر والدگری</button><button class="primary-btn" data-route="parentConnection">بعدی: ارتباط والد و فرزند</button></div>
+    </main>
+  </div>`;
+}
+
 function renderStaticPage(routeId) {
   const route = routes.find((item) => item.id === routeId) || routes[0];
   const content = contentById[routeId] || { title: route.title, intro: route.summary, sections: [{ heading: 'چه چیزی می‌بینی؟', body: ['درک و تشخیص مسئله', 'مشاهده رفتار و واکنش‌ها', 'بازتاب احساس یکدیگر'] }, { heading: 'چه کار کنیم؟', body: ['سکوت قضاوت‌آمیز', 'گفت‌وگوی آرام', 'مرز روشن و کوتاه'] }] };
@@ -351,6 +460,10 @@ function render() {
     app.innerHTML = renderHome();
     return;
   }
+  if (state.activeRoute === 'generationGap') {
+    app.innerHTML = renderGoldenLesson();
+    return;
+  }
   if (route.type === 'category') {
     app.innerHTML = renderCategoryPage(route.id);
     return;
@@ -364,6 +477,8 @@ function bindEvents() {
       const routeId = button.dataset.route;
       if (!routeId) return;
       state.activeRoute = routeId;
+      const nextRoute = getRouteById(routeId);
+      if (nextRoute?.route && window.location.pathname !== nextRoute.route) history.pushState({ routeId }, '', nextRoute.route);
       render();
       bindEvents();
     });
@@ -386,6 +501,25 @@ function bindEvents() {
       bindEvents();
     });
   });
+  document.querySelectorAll('[data-scenario]').forEach((button) => {
+    button.addEventListener('click', () => { state.lesson.scenarioChoice = button.dataset.scenario; render(); bindEvents(); });
+  });
+  document.querySelectorAll('[data-check]').forEach((input) => {
+    input.addEventListener('change', () => { state.lesson.checklist[input.dataset.check] = input.checked; render(); bindEvents(); });
+  });
+  document.querySelectorAll('[data-step]').forEach((input) => {
+    input.addEventListener('change', () => { state.lesson.steps[input.dataset.step] = input.checked; render(); bindEvents(); });
+  });
+  document.querySelectorAll('[data-quiz]').forEach((input) => {
+    input.addEventListener('change', () => {
+      const q = goldenLesson.quiz.questions.find(x => x.id === input.dataset.quiz);
+      if (q?.type === 'multiple') {
+        const values = [...document.querySelectorAll(`[data-quiz="${q.id}"]:checked`)].map(x=>x.value);
+        state.lesson.quiz[q.id] = values;
+      } else state.lesson.quiz[input.dataset.quiz] = input.value;
+      render(); bindEvents();
+    });
+  });
   document.querySelectorAll('.lang').forEach((button) => {
     button.addEventListener('click', () => {
       state.language = button.dataset.lang || 'fa';
@@ -397,3 +531,11 @@ function bindEvents() {
 
 render();
 bindEvents();
+
+
+window.addEventListener('popstate', () => {
+  const matched = routes.find((r) => r.route === window.location.pathname);
+  state.activeRoute = matched?.id || 'home';
+  render();
+  bindEvents();
+});
